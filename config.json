@@ -1,0 +1,4 @@
+{
+"port": 8002,
+"userDatabase": "./ticTacToeUsers.json"
+}
