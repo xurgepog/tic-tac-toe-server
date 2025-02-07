@@ -26,10 +26,6 @@ EMPTY = ' '
 
 Board = list[list[str]]
 
-#############################################################
-############### Private functions—do not use! ###############
-#############################################################
-
 def _player_wins_vertically(player: str, board: Board) -> bool:
     return any(
         all(board[y][x] == player for y in range(BOARD_SIZE)) 
@@ -57,25 +53,6 @@ def _try_read_value(prompt: str) -> Optional[int]:
     except ValueError:
         return None
     return value if 1 <= value < BOARD_SIZE + 1 else None
-
-'''
-def _empty_board_position(board: Board) -> tuple[int, int]:
-    while True:
-        while (column := _try_read_value(f"Column: ")) is None:
-            print(f"Column values must be between 1 and {BOARD_SIZE}")
-
-        while (row := _try_read_value(f"Row: ")) is None:
-            print(f"Row values must be between 1 and {BOARD_SIZE}")
-
-        x = column - 1
-        y = row - 1
-        if (occupant := board[y][x]) == EMPTY:
-            return (y, x)
-        print(f"({column}, {row}) is occupied by {occupant}")
-'''
-##########################################################
-############### Public functions—use these ###############
-##########################################################
 
 def create_board() -> Board:
     """Create a new board"""
