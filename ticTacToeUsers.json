@@ -10,5 +10,13 @@
     {
         "username": "yet another user",
         "password": "$2b$12$it9d.b6nNKYe3YrcGOg9M.252DVxlDVeTAoiPth8GlL7VCkGRICxK"
+    },
+    {
+        "username": "ben",
+        "password": "$2b$12$a2pzpLVDD2ow6DGoJvsimuhwCxF7Mkos0Y5EDzzYLl2xAXw1URizS"
+    },
+    {
+        "username": "ben ten",
+        "password": "$2b$12$0N4NdRaukUkqFwToKefdCu3T.HaEag1z34bEAS8IkQTPzrUjErNyO"
     }
 ]

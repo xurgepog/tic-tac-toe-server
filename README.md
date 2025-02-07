@@ -2,146 +2,158 @@
 
 ## Overview
 
-The project features the ability to setup a tic-tac-toe server, then allows yourself or others to join the server, create rooms, and play games of tic-tac-toe.
+The project features the ability to set up a Tic-Tac-Toe server, allowing yourself or others to join, create rooms, and play games.
 
-This project was created as part of one of my University of Sydney courses, so if something seems like a pointless addition, it was most likely a specification to explore a certain thing we had learnt.
+This project was created as part of one of my University of Sydney courses. If something seems like a pointless addition, it was most likely a specification to explore a certain concept we had learned.
 
-I plan to touch up this project a little bit soon, with the main goal to make the server more presentable, and store how many wins each player has.
+I plan to refine this project soon, with the main goal of making the server more presentable and tracking the number of wins each player has.
 
-## More depth
+## More Depth
 
-The server and each client is to be run in seperate windows. This way the one running the server is capable of playing with others or even against themselves through the use of multiple windows. To see how to setup this up see here [## How To Setup].
+The server and each client must be run in separate windows. This allows the person running the server to play with others or even against themselves using multiple windows. To see how to set this up, see [How to Set Up](#how-to-set-up).
 
-Once the server is setup it no longer needs to be touched, and will only be shut down once the user inputs (whatever CTRL C does). The server will provide useful information to the terminal about which clients have joined, what commands they input, and what rooms exist. See [## How to Setup ### Server].
+Once the server is set up, it no longer needs to be touched and will only shut down when the user inputs `CTRL + C`. The server will provide useful information to the terminal, such as which clients have joined, what commands they input, and what rooms exist. See [Setting Up the Server](#server).
 
-Clients can enter a variety of commands listed in the [## Client Commands] section. These commands allow the user to login then create / join tic-tac-toe games. More information is provided in the opening paragrah of [## Client Commands].
+Clients can enter a variety of commands listed in the [Client Commands](#client-commands) section. These commands allow users to log in and create or join Tic-Tac-Toe games. More details are provided in the introduction to [Client Commands](#client-commands).
 
-## Insight Into The Backend
+## Insight Into the Backend
 
-The project makes use python and the socket library to communicate between clients and the server. TCP is used. 
+The project uses Python’s `socket` and `threading` standard libraries for communication between clients and the server. TCP was chosen as the transmission method for the socket. The `threading` library allows multiple people to connect at once without blocking the I/O.
 
-## How to Setup
+The third-party library `bcrypt` was used to hash the passwords of users registering.
+
+## How to Set Up
 
 ### Server
 
-Locate the config.json file. Change the port number to whatever port you wish to run the server on within your device. Note that anything over 1024 should be fine, I used 8002 for all my testing.
+Locate the `config.json` file and change the port number to any available port above `1024`. I used `8002` for testing.
 
-Now input the following command:
+If no changes are made to file names, use `config.json` as `<server config path>`.
 
-`python3 server.py <server config path>`
+Now, input the following command:
 
-If the terminal has blocked IO it has worked! It will then wait for clients to join and if it is working the server will output what commands it recieves, along with any room data that is created.
+`python server.py <server config path>`
+
+If the terminal has blocked I/O, it has worked! The server will now wait for clients to join. If it is working correctly, it will output received commands along with any created room data.
 
 ### Client
 
-First the server must be setup. Now the following command should be run:
+First, set up the server. Then, run the following command:
 
-`python3 client.py <server address> <port>`
+`python client.py <server address> <port>`
 
-The port given must match the port used in the server running user's config.json file.
+The port must match the port used in the server's `config.json` file.
 
+To check if the client is connected, see if the server outputs anything.
 
 ## Client Commands
 
-Once the client is has their program running they can enter a variety of commands. All possible commands can be seen below.
+Once the client program is running, a variety of commands can be entered. All possible commands are listed below.
 
-The main flow is: register if first time, login, create or join a room, then play through the place command.
+The main flow is: **register (if first time) → login → check room list → create or join a room → play using the PLACE command.**
 
-Each room allows two players, but viewers can join games that have already begun. This is why different room lists exist, since the options to join are different between player and viewer. You can also join a room as a viewer before it has begun.
+Each room allows two players, but spectators can join games that have already begun. This is why different room lists exist—since the joining options differ between players and spectators. You can also join a room as a spectator before it starts.
 
 ### Login To Server:
 
-The first step everytime is logging on, unless its your first time in which you should [### register  account].
+The first step every time is logging in, unless it is your first time, in which case you [should register an account](#register-account).
 
-The following command is used to log on:
+Use the following command to log in:
 
 `LOGIN`
 
-You will then be prompted for you username and password.
+You will then be prompted for your username and password.
 
-Currently there is no real reason to logging in, but I plan to add a score saving system or something else that makes use of the logging in system.
+Currently, logging in serves no real purpose, but I plan to add a score-saving system or other features that make use of authentication.
 
 ### Register Account:
 
-Only need to register your account the first time. Nothing stops you from creating more accounts however.
+You only need to register your account once, but nothing stops you from creating multiple accounts.
 
-Your data will be stored in ticTacToeUsers.json. Note that your password will be hashed, however its not worth using any passwords that mean anything to you since it is super easy to make a new account right now and delete the old one.
+Your data will be stored in `ticTacToeUsers.json`. Note that your password will be hashed, but since account creation is easy, avoid using any important passwords.
 
-To delete you old account you just need to open the ticTacToeUsers.json and remove the appropraite JSON object.
+To delete an old account, open `ticTacToeUsers.json` and remove the corresponding JSON object.
 
-You will not be able to register an account if the name already exists however.
+You cannot register an account with a name that already exists.
 
-To register use the following command:
+To register, use the following command:
 
 `REGISTER`
 
-You will then be prompted with entering the username and password you wish to use.
+You will then be prompted to enter a username and password.
 
-### View Roomlist:
+### View Room List:
 
-Roomlist shows all of the current rooms that exist and are joinable as either a player or viewer depending on which you enter as the mode.
+The room list displays all current rooms that are joinable as either a player or a spectator.
 
-To access the room list enter the following command:
+To access the room list, enter:
 
 `ROOMLIST`
 
-You will then be prompted for a mode, which you can input either "player" or "viewer" as a response to. Viewers can join any room, whereas players can only join rooms that have one client in them.
+You will then be prompted to choose a mode: `player` or `viewer`.
+
+* **Viewers** can join any room.
+* **Players** can only join rooms with one client in them.
 
 ### Create A Room:
 
-Creating a room will add it to the roomlist and will have the client wait for another person to join.
+Creating a room adds it to the room list, and the client will wait for another person to join.
 
-To create a room enter the following command:
+To create a room, enter:
 
 `CREATE`
 
-You will then be prompted to enter a name for your room. If it already exists you will have to try again. To see existing rooms use the room list command. See [### Roomilst].
+You will then be prompted to enter a name for your room. If the name already exists, you must try again. To see existing rooms, use the [room List](#view-room-list) command.
 
-Note the one who creates the room will always be x's and go first.
+**Note:** The person who creates the room will always be X and go first.
 
 ### Join A Room:
 
-To join a room enter the following command:
+To join a room, enter:
 
 `JOIN`
 
-You will then be prompted for what mode you want to join as, enter either "player" or "viewer", as well as the room name you want to join. Use roomlist to see the possible rooms for the mode you want to join a game as. See [### Roomlist].
+You will then be prompted for:
+
+* The mode (`player` or `viewer`).
+* The name of the room you want to join.
+Use the [room List](#view-room-list) command to see available rooms for your chosen mode.
 
 ### Take Your Turn:
 
-Once in the game you can either take your turn or forfeit. When chossing column and row, please note that it is 0 indexed.
+Once in the game, you can either take your turn or forfeit.
+When choosing a column and row, note that it is 0-indexed.
 
-To take your turn input the following command:
+To take your turn, input:
 
 `PLACE`
 
-You will then be prompted with the column and row you wish to place your x or o.
+You will then be prompted to enter the column and row where you wish to place your X or O.
 
-The one who created the room will always be x's and be first to go.
+The **room creator is always X and plays first.**
 
-You can keep on placing until the game is over, where you will be able to enter all the other available commands once again.
+You can continue placing moves until the game ends, after which you will be able to enter other commands again.
 
 ### Forfeit Game:
 
-This will end the game early and declare the opposing player the winner. This option is only available in game. If you ever need to quit before someone else joins... don't.
+This will end the game early and declare the opposing player the winner.
+This option is only available in-game.
 
-To forfeit enter the following command:
+To forfeit, enter:
 
 `FORFEIT`
 
-Once you forfeit you will be able to enter all other available commands, besides place, once again
+After forfeiting, you will be able to enter other commands again (except `PLACE`).
+
+Disconnecting early also counts as a forfeit.
 
 ### Quit Server
 
-To quit as a client type the following command:
+To quit as a client, enter:
 
 `QUIT`
 
 ## Credit
-This project was created as part of my USYD course
-The game.py code was given to us, and we were allowed the ability to modify however we wanted.
-I have made decent changes to the code given.
-
-## Change Before Final commit
-- REMEMBER TO MAKE HARD WRAP ONCE DONE!!!!
-- change server messages to be mroe useful to other people
+This project was created as part of my University of Sydney course.
+The `game.py` code was provided to us, and we were allowed to modify and use it as we wished.
+The `game.py` you see here is an altered version of the original.
